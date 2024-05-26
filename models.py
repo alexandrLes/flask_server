@@ -1,6 +1,7 @@
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, Date, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import uuid
 from config import Config
 
 engine = create_engine(Config.SQLALCHEMY_DATABASE_URI)
@@ -10,8 +11,46 @@ Base = declarative_base()
 class Entity(Base):
     __tablename__ = 'entities'
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
-    age = Column(Integer, nullable=False)
+    user_id = Column(Integer)
+    first_name = Column(String)
+    second_name = Column(String)
+    middle_name = Column(String, nullable=True)
+    dict_sex_id = Column(Integer)
+    birthday = Column(Date)
+    citizenship_id = Column(Integer)
+    motherland = Column(String)
+    email = Column(String)
+    tel_mobile = Column(String)
+    address_txt1 = Column(String)
+    address_txt2 = Column(String, nullable=True)
+    address_txt3 = Column(String, nullable=True)
+    address_txt4 = Column(String, nullable=True)
+    has_another_living_address = Column(Boolean)
+    second_address_txt1 = Column(String, nullable=True)
+    second_address_txt2 = Column(String, nullable=True)
+    second_address_txt3 = Column(String, nullable=True)
+    second_address_txt4 = Column(String, nullable=True)
+    passport_type_id = Column(Integer)
+    passport_series = Column(String)
+    passport_number = Column(String)
+    passport_begda = Column(Date)
+    passport_endda = Column(Date, nullable=True)
+    passport_org_code = Column(String)
+    passport_issued_by = Column(String)
+    need_hostel = Column(Boolean, nullable=True)
+    special_conditions = Column(String, nullable=True)
+    is_with_disabilities = Column(Boolean, nullable=True)
+    diploma_series = Column(String)
+    diploma_number = Column(String)
+    diploma_date = Column(Date)
+    diploma_registration_number = Column(String)
+    graduated_university_text = Column(String)
+    edu_diploma_name_text = Column(String, nullable=True)
+    snils = Column(String, nullable=True)
+    revision = Column(Integer)
+    passport_name_text = Column(String, nullable=True)
+    has_original_edu_diploma = Column(Boolean)
+    passport_uuid = Column(String, default=lambda: str(uuid.uuid4()))
+    public_code = Column(String)
 
-    def __repr__(self):
-        return f"<Entity(id={self.id}, name='{self.name}', age={self.age})>"
+Base.metadata.create_all(engine)

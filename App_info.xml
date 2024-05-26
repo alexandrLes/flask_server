@@ -1,6 +1,46 @@
 
-        <data>
-            <name>John</name>
-            <age>30</age>
-        </data>
-        
+    <root>
+        <id>2</id>
+        <user_id>3878</user_id>
+        <first_name>Максим</first_name>
+        <second_name>Яруллин</second_name>
+        <middle_name></middle_name>
+        <dict_sex_id>1</dict_sex_id>
+        <birthday>2005-08-07</birthday>
+        <citizenship_id>185</citizenship_id>
+        <motherland>Россия Г.Астана</motherland>
+        <email>mail@etu.ru</email>
+        <tel_mobile>+7 (888) 888-88-88</tel_mobile>
+        <address_txt1>Могилевская область</address_txt1>
+        <address_txt2></address_txt2>
+        <address_txt3></address_txt3>
+        <address_txt4></address_txt4>
+        <has_another_living_address>False</has_another_living_address>
+        <second_address_txt1></second_address_txt1>
+        <second_address_txt2></second_address_txt2>
+        <second_address_txt3></second_address_txt3>
+        <second_address_txt4></second_address_txt4>
+        <passport_type_id>1</passport_type_id>
+        <passport_series>5661</passport_series>
+        <passport_number>111111</passport_number>
+        <passport_begda>2019-09-08</passport_begda>
+        <passport_endda></passport_endda>
+        <passport_org_code>111-111</passport_org_code>
+        <passport_issued_by>МВД-АВОР.ПРДЛПАРОДАЬЕК</passport_issued_by>
+        <need_hostel></need_hostel>
+        <special_conditions></special_conditions>
+        <is_with_disabilities></is_with_disabilities>
+        <diploma_series>123132</diploma_series>
+        <diploma_number>1211221</diploma_number>
+        <diploma_date>2000-10-10</diplома_date>
+        <diploma_registration_number>уц</diplома_registration_number>
+        <graduated_university_text>кцу</graduated_university_text>
+        <edu_diploma_name_text></edu_diplома_name_text>
+        <snils></snils>
+        <revision>1</revision>
+        <passport_name_text></passport_name_text>
+        <has_original_edu_diploma>False</has_original_edu_dиплома>
+        <passport_uuid>151ad3fc-756f-46d0-8ec0-9d0355ec693a</passport_uuid>
+        <public_code>870-074-745 12</public_code>
+    </root>
+    

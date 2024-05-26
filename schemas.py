@@ -1,16 +1,49 @@
-from pydantic import BaseModel, validator
-from xml.etree import ElementTree as ET
+from pydantic import BaseModel, Field
+from typing import Optional
 
 class JsonRequest(BaseModel):
-    data: dict
+    id: int
+    user_id: int
+    first_name: str
+    second_name: str
+    middle_name: Optional[str]
+    dict_sex_id: int
+    birthday: str
+    citizenship_id: int
+    motherland: str
+    email: str
+    tel_mobile: str
+    address_txt1: str
+    address_txt2: Optional[str]
+    address_txt3: Optional[str]
+    address_txt4: Optional[str]
+    has_another_living_address: bool
+    second_address_txt1: Optional[str]
+    second_address_txt2: Optional[str]
+    second_address_txt3: Optional[str]
+    second_address_txt4: Optional[str]
+    passport_type_id: int
+    passport_series: str
+    passport_number: str
+    passport_begda: str
+    passport_endda: Optional[str]
+    passport_org_code: str
+    passport_issued_by: str
+    need_hostel: Optional[str]
+    special_conditions: Optional[str]
+    is_with_disabilities: Optional[str]
+    diploma_series: str
+    diploma_number: str
+    diploma_date: str
+    diploma_registration_number: str
+    graduated_university_text: str
+    edu_diploma_name_text: Optional[str]
+    snils: Optional[str]
+    revision: int
+    passport_name_text: Optional[str]
+    has_original_edu_diploma: bool
+    passport_uuid: str
+    public_code: str
 
 class XmlRequest(BaseModel):
     data: str
-
-    @validator('data')
-    def validate_xml(cls, value):
-        try:
-            ET.fromstring(value)
-        except ET.ParseError as e:
-            raise ValueError(f"Invalid XML: {e}")
-        return value

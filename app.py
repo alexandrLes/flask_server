@@ -6,6 +6,7 @@ from tasks import celery
 from pydantic import ValidationError
 from celery.result import AsyncResult
 import json
+import xml.etree.ElementTree as ET
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -22,10 +23,15 @@ def json_to_xml():
         
         if file and file.filename.endswith('.json'):
             request_data = json.load(file)
+            try:
+                validated_data = JsonRequest(**request_data)
+            except ValidationError as e:
+                return jsonify({'error': e.errors()}), 400
+
             task = celery.send_task('tasks.convert_and_save', args=[request_data, 'json_to_xml'])
             result = task.wait()
             with Session() as session:
-                entity = Entity(name=request_data['name'], age=int(request_data['age']))
+                entity = Entity(**request_data)
                 session.add(entity)
                 session.commit()
             return jsonify({'result': result})
@@ -48,13 +54,22 @@ def xml_to_json():
         
         if file and file.filename.endswith('.xml'):
             xml_string = file.read().decode()
-            request_data = XmlRequest(data=xml_string)
-            task = celery.send_task('tasks.convert_and_save', args=[request_data.data, 'xml_to_json'])
+            
+            try:
+                root = ET.fromstring(xml_string)
+            except ET.ParseError as e:
+                return jsonify({'error': 'Invalid XML: ' + str(e)}), 400
+            
+            # Если структура XML корректна, продолжаем обработку
+            request_data = {}  # Допустим, мы здесь парсим XML в словарь
+            task = celery.send_task('tasks.convert_and_save', args=[request_data, 'xml_to_json'])
             result = task.wait()
+            
             with Session() as session:
                 entity = Entity(name=result['name'], age=int(result['age']))
                 session.add(entity)
                 session.commit()
+            
             return jsonify({'result': result})
         else:
             return jsonify({'error': 'Unsupported file type'}), 400
