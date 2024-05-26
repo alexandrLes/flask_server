@@ -60,8 +60,7 @@ def xml_to_json():
             except ET.ParseError as e:
                 return jsonify({'error': 'Invalid XML: ' + str(e)}), 400
             
-            # Если структура XML корректна, продолжаем обработку
-            request_data = {}  # Допустим, мы здесь парсим XML в словарь
+            request_data = {}
             task = celery.send_task('tasks.convert_and_save', args=[request_data, 'xml_to_json'])
             result = task.wait()
             
