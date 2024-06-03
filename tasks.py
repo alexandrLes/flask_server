@@ -1,11 +1,14 @@
-from celery import Celery
-from config import Config
-import dicttoxml
+from xml.etree.ElementTree import tostring
 import xmltodict
-from models import Session, Entity
+from celery import Celery
 from pydantic import BaseModel, ValidationError
+from xmlschema import XMLSchema
+
+from config import Config
+from models import Session, Entity
 
 celery = Celery('tasks', broker=Config.CELERY_BROKER_URL, backend=Config.CELERY_RESULT_BACKEND)
+
 
 class EntityModel(BaseModel):
     id: int
@@ -51,8 +54,9 @@ class EntityModel(BaseModel):
     passport_uuid: str
     public_code: str
 
+
 @celery.task
-def convert_and_save(data, conversion_type):
+def convert_and_save(data: dict, conversion_type: str) -> str:
     session = Session()
     try:
         if conversion_type == 'json_to_xml':
@@ -60,8 +64,14 @@ def convert_and_save(data, conversion_type):
             entity = Entity(**entity_data.dict())
             session.add(entity)
             session.commit()
-            xml_data = dicttoxml.dicttoxml(entity_data.dict())
-            return xml_data.decode()
+            with open("schema.xsd", "r") as file:
+                schema = file.read()
+            schema = XMLSchema(schema)
+            xml_data = schema.encode(data)
+            if not schema.is_valid(xml_data):
+                return '<validation error/>'
+
+            return tostring(xml_data).decode()
         elif conversion_type == 'xml_to_json':
             json_data = xmltodict.parse(data)
             entity_data = EntityModel(**json_data['root'])

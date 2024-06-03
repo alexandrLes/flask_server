@@ -4,19 +4,19 @@ This is a Flask server that performs data conversion between JSON and XML format
 
 ## Installation
 
-1. Clone the repository to your local machine:
+**1.** Clone the repository to your local machine:
 
-git clone git@github.com:alexandrLes/flask_server.git
+```git clone git@github.com:alexandrLes/flask_server.git```
 
-2. Install the dependencies:
+**2.** Install the dependencies:
 
-pip install requirements.txt
+```pip install -r requirements.txt```
 
-3. Set up and configure PostgreSQL and Redis servers.
+**3.** Set up and configure PostgreSQL and Redis servers.
 
 ## Configuration
 
-1. Create a configuration file `config.py` and specify the connection parameters to your PostgreSQL and Redis servers.
+**1.** Create / edit a configuration file `config.py` and specify the connection parameters to your PostgreSQL and Redis servers.
 
 ```python
 # config.py
@@ -26,11 +26,15 @@ class Config:
     CELERY_BROKER_URL = 'redis://localhost:6379/0'
     CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
     TESTING = False
-
+```
 ## Running 
+```shell
 redis-server
 celery -A tasks worker --loglevel=info
 python app.py
-
-## Testing 
-python test_requests.py 
+```
+## Endpoints
+## Testing
+```shell
+python test_requests.py
+```
